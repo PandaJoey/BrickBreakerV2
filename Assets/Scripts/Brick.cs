@@ -10,7 +10,7 @@ public class Brick : MonoBehaviour {
     public AudioClip crack;
     public GameObject smoke;
     public GameObject smokePuff;
-    public ParticleSystem ps;
+  
     
   
    
@@ -56,9 +56,7 @@ public class Brick : MonoBehaviour {
         if (numHits >= maxHits) {
             breakableCount--;
             levelManager.BrickDestroyed();
-            smokePuff = Instantiate(smoke, transform.position, Quaternion.identity);
-            ParticleSystem.MainModule main = smokePuff.GetComponent<ParticleSystem>().main;
-            main.startColor = gameObject.GetComponent<SpriteRenderer>().color;
+            PuffSmoke();
             Destroy(gameObject);
         }
         else {
@@ -66,6 +64,8 @@ public class Brick : MonoBehaviour {
 
         }
     }
+
+  
 
     void LoadSprites() {
         int spriteIndex = numHits - 1;
@@ -83,8 +83,9 @@ public class Brick : MonoBehaviour {
     }
     private void PuffSmoke()
     {
-        GameObject smokePuff = Instantiate(smoke, gameObject.transform.position, Quaternion.identity);
-        smokePuff.SendMessage("SetColor", gameObject.GetComponent<SpriteRenderer>().color);
+        smokePuff = Instantiate(smoke, transform.position, Quaternion.identity);
+        ParticleSystem.MainModule main = smokePuff.GetComponent<ParticleSystem>().main;
+        main.startColor = gameObject.GetComponent<SpriteRenderer>().color;
     }
 }
 
